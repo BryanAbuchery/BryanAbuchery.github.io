@@ -2,6 +2,7 @@ h1 {
     text-align: center;
     color: black;
     font-weight: bolder;
+    background: lightblue;
 }
 
 h2 {
@@ -9,3 +10,8 @@ h2 {
     color: black;
     font-weight: bold;
 }
+
+p {
+	line-height: 1.5em
+}
+
