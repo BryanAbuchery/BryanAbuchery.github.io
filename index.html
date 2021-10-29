@@ -1,308 +1,326 @@
-<html>
-    <head>
-        <title>Bryan Etindi Abuchery</title>
-        <link rel="stylesheet" type="text/css" href="vitae.css">
-        <link rel="shortcut icon" type="image/jpg" href="icons8-xbox-b-48.png">
-    </head>
-
-    <body>
-        <h1>Bryan Etindi Abuchery</h1>
-        <p>
-            <br>Rua Dr. Ranimiro Lotufo, 350,
-            <br>18607-050, Botucatu, SP
-            <br>+55 (14) 99105-4115
-            <br>bryan.abuchery@unesp.br
-            <br><a href="https://www.linkedin.com/in/bryan-abuchery-999153a7/" target="_blank" rel="noopener noreferrer"><img src="icons8-linkedin-48.png"></a> <a href="https://github.com/BryanAbuchery" target="_blank" rel="noopener noreferrer"><img src="icons8-github-30.png"></a> <a href="https://twitter.com/AbucheryBryan" target="_blank" rel="noopener noreferrer"><img src="favicon.ico"></a>
-        </p>
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Password Protected Page</title>
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #dialogText {
+            padding: 10px 30px;
+            color: white;
+            background-color: #333333;
+        }
         
-        <h2>Personal Statement</h2>
+        #dialogWrap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: table;
+            background-color: #EEEEEE;
+        }
         
-        <p>
-            A molecular biologist and a Bioinformatics enthusiast with Master's Degree in Genetics and a Bachelor’s Degree in Microbiology.
-        </p>
+        #dialogWrapCell {
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        #mainDialog {
+            max-width: 400px;
+            margin: 5px;
+            border: solid #AAAAAA 1px;
+            border-radius: 10px;
+            box-shadow: 3px 3px 5px 3px #AAAAAA;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #FFFFFF;
+            overflow: hidden;
+            text-align: left;
+        }
+        #passArea {
+            padding: 20px 30px;
+            background-color: white;
+        }
+        #passArea > * {
+            margin: 5px auto;
+        }
+        #pass {
+            width: 100%;
+            height: 40px;
+            font-size: 30px;
+        }
+        
+        #messageWrapper {
+            float: left;
+            vertical-align: middle;
+            line-height: 30px;
+        }
+        
+        .notifyText {
+            display: none;
+        }
+        
+        #invalidPass {
+            color: red;
+        }
+        
+        #success {
+            color: green;
+        }
+        
+        #submitPass {
+            font-size: 20px;
+            border-radius: 5px;
+            background-color: #E7E7E7;
+            border: solid gray 1px;
+            float: right;
+        }
+        #contentFrame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #attribution {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+        #attribution, #attribution a {
+            color: #999;
+        }
+    </style>
+  </head>
+  <body>
+    <iframe id="contentFrame" frameBorder="0" allowfullscreen></iframe>
+    <div id="dialogWrap">
+        <div id="dialogWrapCell">
+            <div id="mainDialog">
+                <div id="dialogText">This page is password protected.</div>
+                <div id="passArea">
+                    <p id="passwordPrompt">Password</p>
+                    <input id="pass" type="password" name="pass" autofocus>
+                    <div>
+                        <span id="messageWrapper">
+                            <span id="invalidPass" class="notifyText">Sorry, please try again.</span>
+                            <span id="success" class="notifyText">Success!</span>
+                            &nbsp;
+                        </span>
+                        <button id="submitPass" type="button">Submit</button>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="attribution">
+        Protected by <a href="https://www.maxlaumeister.com/pagecrypt/">PageCrypt</a>
+    </div>
+    <script>
+/*
+CryptoJS v3.1.2
+code.google.com/p/crypto-js
+(c) 2009-2013 by Jeff Mott. All rights reserved.
+code.google.com/p/crypto-js/wiki/License
+*/
+var CryptoJS=CryptoJS||function(u,p){var d={},l=d.lib={},s=function(){},t=l.Base={extend:function(a){s.prototype=this;var c=new s;a&&c.mixIn(a);c.hasOwnProperty("init")||(c.init=function(){c.$super.init.apply(this,arguments)});c.init.prototype=c;c.$super=this;return c},create:function(){var a=this.extend();a.init.apply(a,arguments);return a},init:function(){},mixIn:function(a){for(var c in a)a.hasOwnProperty(c)&&(this[c]=a[c]);a.hasOwnProperty("toString")&&(this.toString=a.toString)},clone:function(){return this.init.prototype.extend(this)}},
+r=l.WordArray=t.extend({init:function(a,c){a=this.words=a||[];this.sigBytes=c!=p?c:4*a.length},toString:function(a){return(a||v).stringify(this)},concat:function(a){var c=this.words,e=a.words,j=this.sigBytes;a=a.sigBytes;this.clamp();if(j%4)for(var k=0;k<a;k++)c[j+k>>>2]|=(e[k>>>2]>>>24-8*(k%4)&255)<<24-8*((j+k)%4);else if(65535<e.length)for(k=0;k<a;k+=4)c[j+k>>>2]=e[k>>>2];else c.push.apply(c,e);this.sigBytes+=a;return this},clamp:function(){var a=this.words,c=this.sigBytes;a[c>>>2]&=4294967295<<
+32-8*(c%4);a.length=u.ceil(c/4)},clone:function(){var a=t.clone.call(this);a.words=this.words.slice(0);return a},random:function(a){for(var c=[],e=0;e<a;e+=4)c.push(4294967296*u.random()|0);return new r.init(c,a)}}),w=d.enc={},v=w.Hex={stringify:function(a){var c=a.words;a=a.sigBytes;for(var e=[],j=0;j<a;j++){var k=c[j>>>2]>>>24-8*(j%4)&255;e.push((k>>>4).toString(16));e.push((k&15).toString(16))}return e.join("")},parse:function(a){for(var c=a.length,e=[],j=0;j<c;j+=2)e[j>>>3]|=parseInt(a.substr(j,
+2),16)<<24-4*(j%8);return new r.init(e,c/2)}},b=w.Latin1={stringify:function(a){var c=a.words;a=a.sigBytes;for(var e=[],j=0;j<a;j++)e.push(String.fromCharCode(c[j>>>2]>>>24-8*(j%4)&255));return e.join("")},parse:function(a){for(var c=a.length,e=[],j=0;j<c;j++)e[j>>>2]|=(a.charCodeAt(j)&255)<<24-8*(j%4);return new r.init(e,c)}},x=w.Utf8={stringify:function(a){try{return decodeURIComponent(escape(b.stringify(a)))}catch(c){throw Error("Malformed UTF-8 data");}},parse:function(a){return b.parse(unescape(encodeURIComponent(a)))}},
+q=l.BufferedBlockAlgorithm=t.extend({reset:function(){this._data=new r.init;this._nDataBytes=0},_append:function(a){"string"==typeof a&&(a=x.parse(a));this._data.concat(a);this._nDataBytes+=a.sigBytes},_process:function(a){var c=this._data,e=c.words,j=c.sigBytes,k=this.blockSize,b=j/(4*k),b=a?u.ceil(b):u.max((b|0)-this._minBufferSize,0);a=b*k;j=u.min(4*a,j);if(a){for(var q=0;q<a;q+=k)this._doProcessBlock(e,q);q=e.splice(0,a);c.sigBytes-=j}return new r.init(q,j)},clone:function(){var a=t.clone.call(this);
+a._data=this._data.clone();return a},_minBufferSize:0});l.Hasher=q.extend({cfg:t.extend(),init:function(a){this.cfg=this.cfg.extend(a);this.reset()},reset:function(){q.reset.call(this);this._doReset()},update:function(a){this._append(a);this._process();return this},finalize:function(a){a&&this._append(a);return this._doFinalize()},blockSize:16,_createHelper:function(a){return function(b,e){return(new a.init(e)).finalize(b)}},_createHmacHelper:function(a){return function(b,e){return(new n.HMAC.init(a,
+e)).finalize(b)}}});var n=d.algo={};return d}(Math);
+(function(){var u=CryptoJS,p=u.lib.WordArray;u.enc.Base64={stringify:function(d){var l=d.words,p=d.sigBytes,t=this._map;d.clamp();d=[];for(var r=0;r<p;r+=3)for(var w=(l[r>>>2]>>>24-8*(r%4)&255)<<16|(l[r+1>>>2]>>>24-8*((r+1)%4)&255)<<8|l[r+2>>>2]>>>24-8*((r+2)%4)&255,v=0;4>v&&r+0.75*v<p;v++)d.push(t.charAt(w>>>6*(3-v)&63));if(l=t.charAt(64))for(;d.length%4;)d.push(l);return d.join("")},parse:function(d){var l=d.length,s=this._map,t=s.charAt(64);t&&(t=d.indexOf(t),-1!=t&&(l=t));for(var t=[],r=0,w=0;w<
+l;w++)if(w%4){var v=s.indexOf(d.charAt(w-1))<<2*(w%4),b=s.indexOf(d.charAt(w))>>>6-2*(w%4);t[r>>>2]|=(v|b)<<24-8*(r%4);r++}return p.create(t,r)},_map:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="}})();
+(function(u){function p(b,n,a,c,e,j,k){b=b+(n&a|~n&c)+e+k;return(b<<j|b>>>32-j)+n}function d(b,n,a,c,e,j,k){b=b+(n&c|a&~c)+e+k;return(b<<j|b>>>32-j)+n}function l(b,n,a,c,e,j,k){b=b+(n^a^c)+e+k;return(b<<j|b>>>32-j)+n}function s(b,n,a,c,e,j,k){b=b+(a^(n|~c))+e+k;return(b<<j|b>>>32-j)+n}for(var t=CryptoJS,r=t.lib,w=r.WordArray,v=r.Hasher,r=t.algo,b=[],x=0;64>x;x++)b[x]=4294967296*u.abs(u.sin(x+1))|0;r=r.MD5=v.extend({_doReset:function(){this._hash=new w.init([1732584193,4023233417,2562383102,271733878])},
+_doProcessBlock:function(q,n){for(var a=0;16>a;a++){var c=n+a,e=q[c];q[c]=(e<<8|e>>>24)&16711935|(e<<24|e>>>8)&4278255360}var a=this._hash.words,c=q[n+0],e=q[n+1],j=q[n+2],k=q[n+3],z=q[n+4],r=q[n+5],t=q[n+6],w=q[n+7],v=q[n+8],A=q[n+9],B=q[n+10],C=q[n+11],u=q[n+12],D=q[n+13],E=q[n+14],x=q[n+15],f=a[0],m=a[1],g=a[2],h=a[3],f=p(f,m,g,h,c,7,b[0]),h=p(h,f,m,g,e,12,b[1]),g=p(g,h,f,m,j,17,b[2]),m=p(m,g,h,f,k,22,b[3]),f=p(f,m,g,h,z,7,b[4]),h=p(h,f,m,g,r,12,b[5]),g=p(g,h,f,m,t,17,b[6]),m=p(m,g,h,f,w,22,b[7]),
+f=p(f,m,g,h,v,7,b[8]),h=p(h,f,m,g,A,12,b[9]),g=p(g,h,f,m,B,17,b[10]),m=p(m,g,h,f,C,22,b[11]),f=p(f,m,g,h,u,7,b[12]),h=p(h,f,m,g,D,12,b[13]),g=p(g,h,f,m,E,17,b[14]),m=p(m,g,h,f,x,22,b[15]),f=d(f,m,g,h,e,5,b[16]),h=d(h,f,m,g,t,9,b[17]),g=d(g,h,f,m,C,14,b[18]),m=d(m,g,h,f,c,20,b[19]),f=d(f,m,g,h,r,5,b[20]),h=d(h,f,m,g,B,9,b[21]),g=d(g,h,f,m,x,14,b[22]),m=d(m,g,h,f,z,20,b[23]),f=d(f,m,g,h,A,5,b[24]),h=d(h,f,m,g,E,9,b[25]),g=d(g,h,f,m,k,14,b[26]),m=d(m,g,h,f,v,20,b[27]),f=d(f,m,g,h,D,5,b[28]),h=d(h,f,
+m,g,j,9,b[29]),g=d(g,h,f,m,w,14,b[30]),m=d(m,g,h,f,u,20,b[31]),f=l(f,m,g,h,r,4,b[32]),h=l(h,f,m,g,v,11,b[33]),g=l(g,h,f,m,C,16,b[34]),m=l(m,g,h,f,E,23,b[35]),f=l(f,m,g,h,e,4,b[36]),h=l(h,f,m,g,z,11,b[37]),g=l(g,h,f,m,w,16,b[38]),m=l(m,g,h,f,B,23,b[39]),f=l(f,m,g,h,D,4,b[40]),h=l(h,f,m,g,c,11,b[41]),g=l(g,h,f,m,k,16,b[42]),m=l(m,g,h,f,t,23,b[43]),f=l(f,m,g,h,A,4,b[44]),h=l(h,f,m,g,u,11,b[45]),g=l(g,h,f,m,x,16,b[46]),m=l(m,g,h,f,j,23,b[47]),f=s(f,m,g,h,c,6,b[48]),h=s(h,f,m,g,w,10,b[49]),g=s(g,h,f,m,
+E,15,b[50]),m=s(m,g,h,f,r,21,b[51]),f=s(f,m,g,h,u,6,b[52]),h=s(h,f,m,g,k,10,b[53]),g=s(g,h,f,m,B,15,b[54]),m=s(m,g,h,f,e,21,b[55]),f=s(f,m,g,h,v,6,b[56]),h=s(h,f,m,g,x,10,b[57]),g=s(g,h,f,m,t,15,b[58]),m=s(m,g,h,f,D,21,b[59]),f=s(f,m,g,h,z,6,b[60]),h=s(h,f,m,g,C,10,b[61]),g=s(g,h,f,m,j,15,b[62]),m=s(m,g,h,f,A,21,b[63]);a[0]=a[0]+f|0;a[1]=a[1]+m|0;a[2]=a[2]+g|0;a[3]=a[3]+h|0},_doFinalize:function(){var b=this._data,n=b.words,a=8*this._nDataBytes,c=8*b.sigBytes;n[c>>>5]|=128<<24-c%32;var e=u.floor(a/
+4294967296);n[(c+64>>>9<<4)+15]=(e<<8|e>>>24)&16711935|(e<<24|e>>>8)&4278255360;n[(c+64>>>9<<4)+14]=(a<<8|a>>>24)&16711935|(a<<24|a>>>8)&4278255360;b.sigBytes=4*(n.length+1);this._process();b=this._hash;n=b.words;for(a=0;4>a;a++)c=n[a],n[a]=(c<<8|c>>>24)&16711935|(c<<24|c>>>8)&4278255360;return b},clone:function(){var b=v.clone.call(this);b._hash=this._hash.clone();return b}});t.MD5=v._createHelper(r);t.HmacMD5=v._createHmacHelper(r)})(Math);
+(function(){var u=CryptoJS,p=u.lib,d=p.Base,l=p.WordArray,p=u.algo,s=p.EvpKDF=d.extend({cfg:d.extend({keySize:4,hasher:p.MD5,iterations:1}),init:function(d){this.cfg=this.cfg.extend(d)},compute:function(d,r){for(var p=this.cfg,s=p.hasher.create(),b=l.create(),u=b.words,q=p.keySize,p=p.iterations;u.length<q;){n&&s.update(n);var n=s.update(d).finalize(r);s.reset();for(var a=1;a<p;a++)n=s.finalize(n),s.reset();b.concat(n)}b.sigBytes=4*q;return b}});u.EvpKDF=function(d,l,p){return s.create(p).compute(d,
+l)}})();
+CryptoJS.lib.Cipher||function(u){var p=CryptoJS,d=p.lib,l=d.Base,s=d.WordArray,t=d.BufferedBlockAlgorithm,r=p.enc.Base64,w=p.algo.EvpKDF,v=d.Cipher=t.extend({cfg:l.extend(),createEncryptor:function(e,a){return this.create(this._ENC_XFORM_MODE,e,a)},createDecryptor:function(e,a){return this.create(this._DEC_XFORM_MODE,e,a)},init:function(e,a,b){this.cfg=this.cfg.extend(b);this._xformMode=e;this._key=a;this.reset()},reset:function(){t.reset.call(this);this._doReset()},process:function(e){this._append(e);return this._process()},
+finalize:function(e){e&&this._append(e);return this._doFinalize()},keySize:4,ivSize:4,_ENC_XFORM_MODE:1,_DEC_XFORM_MODE:2,_createHelper:function(e){return{encrypt:function(b,k,d){return("string"==typeof k?c:a).encrypt(e,b,k,d)},decrypt:function(b,k,d){return("string"==typeof k?c:a).decrypt(e,b,k,d)}}}});d.StreamCipher=v.extend({_doFinalize:function(){return this._process(!0)},blockSize:1});var b=p.mode={},x=function(e,a,b){var c=this._iv;c?this._iv=u:c=this._prevBlock;for(var d=0;d<b;d++)e[a+d]^=
+c[d]},q=(d.BlockCipherMode=l.extend({createEncryptor:function(e,a){return this.Encryptor.create(e,a)},createDecryptor:function(e,a){return this.Decryptor.create(e,a)},init:function(e,a){this._cipher=e;this._iv=a}})).extend();q.Encryptor=q.extend({processBlock:function(e,a){var b=this._cipher,c=b.blockSize;x.call(this,e,a,c);b.encryptBlock(e,a);this._prevBlock=e.slice(a,a+c)}});q.Decryptor=q.extend({processBlock:function(e,a){var b=this._cipher,c=b.blockSize,d=e.slice(a,a+c);b.decryptBlock(e,a);x.call(this,
+e,a,c);this._prevBlock=d}});b=b.CBC=q;q=(p.pad={}).Pkcs7={pad:function(a,b){for(var c=4*b,c=c-a.sigBytes%c,d=c<<24|c<<16|c<<8|c,l=[],n=0;n<c;n+=4)l.push(d);c=s.create(l,c);a.concat(c)},unpad:function(a){a.sigBytes-=a.words[a.sigBytes-1>>>2]&255}};d.BlockCipher=v.extend({cfg:v.cfg.extend({mode:b,padding:q}),reset:function(){v.reset.call(this);var a=this.cfg,b=a.iv,a=a.mode;if(this._xformMode==this._ENC_XFORM_MODE)var c=a.createEncryptor;else c=a.createDecryptor,this._minBufferSize=1;this._mode=c.call(a,
+this,b&&b.words)},_doProcessBlock:function(a,b){this._mode.processBlock(a,b)},_doFinalize:function(){var a=this.cfg.padding;if(this._xformMode==this._ENC_XFORM_MODE){a.pad(this._data,this.blockSize);var b=this._process(!0)}else b=this._process(!0),a.unpad(b);return b},blockSize:4});var n=d.CipherParams=l.extend({init:function(a){this.mixIn(a)},toString:function(a){return(a||this.formatter).stringify(this)}}),b=(p.format={}).OpenSSL={stringify:function(a){var b=a.ciphertext;a=a.salt;return(a?s.create([1398893684,
+1701076831]).concat(a).concat(b):b).toString(r)},parse:function(a){a=r.parse(a);var b=a.words;if(1398893684==b[0]&&1701076831==b[1]){var c=s.create(b.slice(2,4));b.splice(0,4);a.sigBytes-=16}return n.create({ciphertext:a,salt:c})}},a=d.SerializableCipher=l.extend({cfg:l.extend({format:b}),encrypt:function(a,b,c,d){d=this.cfg.extend(d);var l=a.createEncryptor(c,d);b=l.finalize(b);l=l.cfg;return n.create({ciphertext:b,key:c,iv:l.iv,algorithm:a,mode:l.mode,padding:l.padding,blockSize:a.blockSize,formatter:d.format})},
+decrypt:function(a,b,c,d){d=this.cfg.extend(d);b=this._parse(b,d.format);return a.createDecryptor(c,d).finalize(b.ciphertext)},_parse:function(a,b){return"string"==typeof a?b.parse(a,this):a}}),p=(p.kdf={}).OpenSSL={execute:function(a,b,c,d){d||(d=s.random(8));a=w.create({keySize:b+c}).compute(a,d);c=s.create(a.words.slice(b),4*c);a.sigBytes=4*b;return n.create({key:a,iv:c,salt:d})}},c=d.PasswordBasedCipher=a.extend({cfg:a.cfg.extend({kdf:p}),encrypt:function(b,c,d,l){l=this.cfg.extend(l);d=l.kdf.execute(d,
+b.keySize,b.ivSize);l.iv=d.iv;b=a.encrypt.call(this,b,c,d.key,l);b.mixIn(d);return b},decrypt:function(b,c,d,l){l=this.cfg.extend(l);c=this._parse(c,l.format);d=l.kdf.execute(d,b.keySize,b.ivSize,c.salt);l.iv=d.iv;return a.decrypt.call(this,b,c,d.key,l)}})}();
+(function(){for(var u=CryptoJS,p=u.lib.BlockCipher,d=u.algo,l=[],s=[],t=[],r=[],w=[],v=[],b=[],x=[],q=[],n=[],a=[],c=0;256>c;c++)a[c]=128>c?c<<1:c<<1^283;for(var e=0,j=0,c=0;256>c;c++){var k=j^j<<1^j<<2^j<<3^j<<4,k=k>>>8^k&255^99;l[e]=k;s[k]=e;var z=a[e],F=a[z],G=a[F],y=257*a[k]^16843008*k;t[e]=y<<24|y>>>8;r[e]=y<<16|y>>>16;w[e]=y<<8|y>>>24;v[e]=y;y=16843009*G^65537*F^257*z^16843008*e;b[k]=y<<24|y>>>8;x[k]=y<<16|y>>>16;q[k]=y<<8|y>>>24;n[k]=y;e?(e=z^a[a[a[G^z]]],j^=a[a[j]]):e=j=1}var H=[0,1,2,4,8,
+16,32,64,128,27,54],d=d.AES=p.extend({_doReset:function(){for(var a=this._key,c=a.words,d=a.sigBytes/4,a=4*((this._nRounds=d+6)+1),e=this._keySchedule=[],j=0;j<a;j++)if(j<d)e[j]=c[j];else{var k=e[j-1];j%d?6<d&&4==j%d&&(k=l[k>>>24]<<24|l[k>>>16&255]<<16|l[k>>>8&255]<<8|l[k&255]):(k=k<<8|k>>>24,k=l[k>>>24]<<24|l[k>>>16&255]<<16|l[k>>>8&255]<<8|l[k&255],k^=H[j/d|0]<<24);e[j]=e[j-d]^k}c=this._invKeySchedule=[];for(d=0;d<a;d++)j=a-d,k=d%4?e[j]:e[j-4],c[d]=4>d||4>=j?k:b[l[k>>>24]]^x[l[k>>>16&255]]^q[l[k>>>
+8&255]]^n[l[k&255]]},encryptBlock:function(a,b){this._doCryptBlock(a,b,this._keySchedule,t,r,w,v,l)},decryptBlock:function(a,c){var d=a[c+1];a[c+1]=a[c+3];a[c+3]=d;this._doCryptBlock(a,c,this._invKeySchedule,b,x,q,n,s);d=a[c+1];a[c+1]=a[c+3];a[c+3]=d},_doCryptBlock:function(a,b,c,d,e,j,l,f){for(var m=this._nRounds,g=a[b]^c[0],h=a[b+1]^c[1],k=a[b+2]^c[2],n=a[b+3]^c[3],p=4,r=1;r<m;r++)var q=d[g>>>24]^e[h>>>16&255]^j[k>>>8&255]^l[n&255]^c[p++],s=d[h>>>24]^e[k>>>16&255]^j[n>>>8&255]^l[g&255]^c[p++],t=
+d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j[h>>>8&255]^l[k&255]^c[p++],g=q,h=s,k=t;q=(f[g>>>24]<<24|f[h>>>16&255]<<16|f[k>>>8&255]<<8|f[n&255])^c[p++];s=(f[h>>>24]<<24|f[k>>>16&255]<<16|f[n>>>8&255]<<8|f[g&255])^c[p++];t=(f[k>>>24]<<24|f[n>>>16&255]<<16|f[g>>>8&255]<<8|f[h&255])^c[p++];n=(f[n>>>24]<<24|f[g>>>16&255]<<16|f[h>>>8&255]<<8|f[k&255])^c[p++];a[b]=q;a[b+1]=s;a[b+2]=t;a[b+3]=n},keySize:8});u.AES=p._createHelper(d)})();
+    </script>
+    <script>
+/*
+CryptoJS v3.1.2
+code.google.com/p/crypto-js
+(c) 2009-2013 by Jeff Mott. All rights reserved.
+code.google.com/p/crypto-js/wiki/License
+*/
+var CryptoJS=CryptoJS||function(g,j){var e={},d=e.lib={},m=function(){},n=d.Base={extend:function(a){m.prototype=this;var c=new m;a&&c.mixIn(a);c.hasOwnProperty("init")||(c.init=function(){c.$super.init.apply(this,arguments)});c.init.prototype=c;c.$super=this;return c},create:function(){var a=this.extend();a.init.apply(a,arguments);return a},init:function(){},mixIn:function(a){for(var c in a)a.hasOwnProperty(c)&&(this[c]=a[c]);a.hasOwnProperty("toString")&&(this.toString=a.toString)},clone:function(){return this.init.prototype.extend(this)}},
+q=d.WordArray=n.extend({init:function(a,c){a=this.words=a||[];this.sigBytes=c!=j?c:4*a.length},toString:function(a){return(a||l).stringify(this)},concat:function(a){var c=this.words,p=a.words,f=this.sigBytes;a=a.sigBytes;this.clamp();if(f%4)for(var b=0;b<a;b++)c[f+b>>>2]|=(p[b>>>2]>>>24-8*(b%4)&255)<<24-8*((f+b)%4);else if(65535<p.length)for(b=0;b<a;b+=4)c[f+b>>>2]=p[b>>>2];else c.push.apply(c,p);this.sigBytes+=a;return this},clamp:function(){var a=this.words,c=this.sigBytes;a[c>>>2]&=4294967295<<
+32-8*(c%4);a.length=g.ceil(c/4)},clone:function(){var a=n.clone.call(this);a.words=this.words.slice(0);return a},random:function(a){for(var c=[],b=0;b<a;b+=4)c.push(4294967296*g.random()|0);return new q.init(c,a)}}),b=e.enc={},l=b.Hex={stringify:function(a){var c=a.words;a=a.sigBytes;for(var b=[],f=0;f<a;f++){var d=c[f>>>2]>>>24-8*(f%4)&255;b.push((d>>>4).toString(16));b.push((d&15).toString(16))}return b.join("")},parse:function(a){for(var c=a.length,b=[],f=0;f<c;f+=2)b[f>>>3]|=parseInt(a.substr(f,
+2),16)<<24-4*(f%8);return new q.init(b,c/2)}},k=b.Latin1={stringify:function(a){var c=a.words;a=a.sigBytes;for(var b=[],f=0;f<a;f++)b.push(String.fromCharCode(c[f>>>2]>>>24-8*(f%4)&255));return b.join("")},parse:function(a){for(var c=a.length,b=[],f=0;f<c;f++)b[f>>>2]|=(a.charCodeAt(f)&255)<<24-8*(f%4);return new q.init(b,c)}},h=b.Utf8={stringify:function(a){try{return decodeURIComponent(escape(k.stringify(a)))}catch(b){throw Error("Malformed UTF-8 data");}},parse:function(a){return k.parse(unescape(encodeURIComponent(a)))}},
+u=d.BufferedBlockAlgorithm=n.extend({reset:function(){this._data=new q.init;this._nDataBytes=0},_append:function(a){"string"==typeof a&&(a=h.parse(a));this._data.concat(a);this._nDataBytes+=a.sigBytes},_process:function(a){var b=this._data,d=b.words,f=b.sigBytes,l=this.blockSize,e=f/(4*l),e=a?g.ceil(e):g.max((e|0)-this._minBufferSize,0);a=e*l;f=g.min(4*a,f);if(a){for(var h=0;h<a;h+=l)this._doProcessBlock(d,h);h=d.splice(0,a);b.sigBytes-=f}return new q.init(h,f)},clone:function(){var a=n.clone.call(this);
+a._data=this._data.clone();return a},_minBufferSize:0});d.Hasher=u.extend({cfg:n.extend(),init:function(a){this.cfg=this.cfg.extend(a);this.reset()},reset:function(){u.reset.call(this);this._doReset()},update:function(a){this._append(a);this._process();return this},finalize:function(a){a&&this._append(a);return this._doFinalize()},blockSize:16,_createHelper:function(a){return function(b,d){return(new a.init(d)).finalize(b)}},_createHmacHelper:function(a){return function(b,d){return(new w.HMAC.init(a,
+d)).finalize(b)}}});var w=e.algo={};return e}(Math);
+(function(){var g=CryptoJS,j=g.lib,e=j.WordArray,d=j.Hasher,m=[],j=g.algo.SHA1=d.extend({_doReset:function(){this._hash=new e.init([1732584193,4023233417,2562383102,271733878,3285377520])},_doProcessBlock:function(d,e){for(var b=this._hash.words,l=b[0],k=b[1],h=b[2],g=b[3],j=b[4],a=0;80>a;a++){if(16>a)m[a]=d[e+a]|0;else{var c=m[a-3]^m[a-8]^m[a-14]^m[a-16];m[a]=c<<1|c>>>31}c=(l<<5|l>>>27)+j+m[a];c=20>a?c+((k&h|~k&g)+1518500249):40>a?c+((k^h^g)+1859775393):60>a?c+((k&h|k&g|h&g)-1894007588):c+((k^h^
+g)-899497514);j=g;g=h;h=k<<30|k>>>2;k=l;l=c}b[0]=b[0]+l|0;b[1]=b[1]+k|0;b[2]=b[2]+h|0;b[3]=b[3]+g|0;b[4]=b[4]+j|0},_doFinalize:function(){var d=this._data,e=d.words,b=8*this._nDataBytes,l=8*d.sigBytes;e[l>>>5]|=128<<24-l%32;e[(l+64>>>9<<4)+14]=Math.floor(b/4294967296);e[(l+64>>>9<<4)+15]=b;d.sigBytes=4*e.length;this._process();return this._hash},clone:function(){var e=d.clone.call(this);e._hash=this._hash.clone();return e}});g.SHA1=d._createHelper(j);g.HmacSHA1=d._createHmacHelper(j)})();
+(function(){var g=CryptoJS,j=g.enc.Utf8;g.algo.HMAC=g.lib.Base.extend({init:function(e,d){e=this._hasher=new e.init;"string"==typeof d&&(d=j.parse(d));var g=e.blockSize,n=4*g;d.sigBytes>n&&(d=e.finalize(d));d.clamp();for(var q=this._oKey=d.clone(),b=this._iKey=d.clone(),l=q.words,k=b.words,h=0;h<g;h++)l[h]^=1549556828,k[h]^=909522486;q.sigBytes=b.sigBytes=n;this.reset()},reset:function(){var e=this._hasher;e.reset();e.update(this._iKey)},update:function(e){this._hasher.update(e);return this},finalize:function(e){var d=
+this._hasher;e=d.finalize(e);d.reset();return d.finalize(this._oKey.clone().concat(e))}})})();
+(function(){var g=CryptoJS,j=g.lib,e=j.Base,d=j.WordArray,j=g.algo,m=j.HMAC,n=j.PBKDF2=e.extend({cfg:e.extend({keySize:4,hasher:j.SHA1,iterations:1}),init:function(d){this.cfg=this.cfg.extend(d)},compute:function(e,b){for(var g=this.cfg,k=m.create(g.hasher,e),h=d.create(),j=d.create([1]),n=h.words,a=j.words,c=g.keySize,g=g.iterations;n.length<c;){var p=k.update(b).finalize(j);k.reset();for(var f=p.words,v=f.length,s=p,t=1;t<g;t++){s=k.finalize(s);k.reset();for(var x=s.words,r=0;r<v;r++)f[r]^=x[r]}h.concat(p);
+a[0]++}h.sigBytes=4*c;return h}});g.PBKDF2=function(d,b,e){return n.create(e).compute(d,b)}})();
+    </script>
+    <script>
+        /*! srcdoc-polyfill - v0.1.1 - 2013-03-01
+        * http://github.com/jugglinmike/srcdoc-polyfill/
+        * Copyright (c) 2013 Mike Pennisi; Licensed MIT */
+        (function( window, document, undefined ) {
+	
+	        var idx, iframes;
+	        var _srcDoc = window.srcDoc;
+	        var isCompliant = !!("srcdoc" in document.createElement("iframe"));
+	        var implementations = {
+		        compliant: function( iframe, content ) {
 
-        <p>
-            Shortly after my graduation, I was able to get admittance for an internship opportunity at the United States Army Medical Research Unit-Kenya. The six-month internship equipped me with Molecular Biology techniques which have continually helped me to obtain high quality results in different biological assays.
-        </p>
+			        if (content) {
+				        iframe.setAttribute("srcdoc", content);
+			        }
+		        },
+		        legacy: function( iframe, content ) {
 
-        <p>
-            My main role at USAMRU-K entailed a continuous surveillance and mapping of Leishmaniasis from endemic regions such as Baringo, Kenya, as well as genetic variation surveillance of the Leishmaniasis-causing pathogens, Leishmania major and Leishmania donovani. Other assays included DNA/RNA Extraction (Spectrophotometric/fluorometric concentration measurements) and PCR & Gel Electrophoresis (Primer design, PCR/RT-PCR, gel-staining) during Acute Febrile Illness (AFI) Surveillance Study to catalogue fever causing pathogens and HIV/Malaria Co-Infection Study in determining HIV positive patients that are carriers of the malaria parasite using molecular techniques. These assays were key in informing disease patterns around study regions and their combat strategies.
-        </p>
+			        var jsUrl;
 
-        <p>
-            I have also been a bioinformatics intern at International Center for Insect Physiology (ICIPE) Research center. The Molecular Biology Biostatistics and Bioinformatics Unit (MBBU) hub housed within ICIPE was very instrumental in introducing me to new Molecular Biology research concepts such as Next Generation Sequencing and use of computational tools to analyze biological data. Among key techniques include application of programming languages such as Python and R, biostatistics and genomic data analysis.
-        </p>
+			        if (!iframe || !iframe.getAttribute) {
+				        return;
+			        }
 
-        <p>
-            As an intern, I did light programming and scripting to create workflows that involve genetic material data analysis. This was accomplished through various programming languages such as Bash, Python and R. Towards the end of my internship at <a href="http://www.icipe.org/research/research-support-units/molecular-biology-bioinformatics-and-biostatistics" target="_blank" rel="noopener noreferrer">MBBU-ICIPE</a>, - together with my teammate, I worked on End to End 16S rRNA data analysis pipeline with two most popular analysis tools available today (QIIME2 and DADA2). The end goal of this project was to provide analysis pipelines for similar data generated at ICIPE laboratories in support for the kind of scientific research that occurs at ICIPE. From a novice programming-languages-user, I am more comfortable in aspects that involve generation of data (from the wetlab) to its analysis (computational biology).
-        </p>
+			        if (!content) {
+				        content = iframe.getAttribute("srcdoc");
+			        } else {
+				        iframe.setAttribute("srcdoc", content);
+			        }
 
-        <p>
-            For code review of my projects as well, more information about my Github repositories <a href="https://github.com/BryanAbuchery/16S-rRNA-End-to-End-Analysis" target="_blank" rel="noopener noreferrer">can be found here</a>, whereas a more general description of our group work project <a href="https://github.com/mbbu/16S-mini-project" target="_blank" rel="noopener noreferrer">can be found here</a>.
-        </p>
+			        if (content) {
+				        // The value returned by a script-targeted URL will be used as
+				        // the iFrame's content. Create such a URL which returns the
+				        // iFrame element's `srcdoc` attribute.
+				        jsUrl = "javascript: window.frameElement.getAttribute('srcdoc');";
 
-        <p>
-            I also developed other skills from various other activities in the laboratory from previous student attachment periods at Kenya Medical Research Institute (KEMRI) which included; DNA Sequencing (sanger/nextgen sequencing (Illumina Sequencing)/data analysis), 100% Inventory taking and subsequent Data Entry to account for all samples in the database, Molecular Biology Techniques such as PCR, Cloning, Molecular Engineering and ELISA, Cellular Cultures (Culture and Sensitivity of microbiological samples) and Biochemical Tests and Malaria RDTs including Loop-Mediated Isothermal Amplification (LAMP Techniques).
-        </p>
+				        iframe.setAttribute("src", jsUrl);
 
-        <p>
-            It is the amalgamation of these techniques that make me the Molecular Biologist I am today. Currently I am a Masters Student at Sao Paulo State University, pursuing Masters in Genetics.Away from the laboratory, I have great leadership skills, able to take initiative and enjoy playing Ultimate Frisbee.
-        </p>
+				        // Explicitly set the iFrame's window.location for
+				        // compatability with IE9, which does not react to changes in
+				        // the `src` attribute when it is a `javascript:` URL, for
+				        // some reason
+				        if (iframe.contentWindow) {
+					        iframe.contentWindow.location = jsUrl;
+				        }
+			        }
+		        }
+	        };
+	        var srcDoc = window.srcDoc = {
+		        // Assume the best
+		        set: implementations.compliant,
+		        noConflict: function() {
+			        window.srcDoc = _srcDoc;
+			        return srcDoc;
+		        }
+	        };
 
+	        // If the browser supports srcdoc, no shimming is necessary
+	        if (isCompliant) {
+		        return;
+	        }
 
-        <h2>Education</h2>
+	        srcDoc.set = implementations.legacy;
 
-        <p>
-            <b>Post-graduate:</b> São Paulo State University
+	        // Automatically shim any iframes already present in the document
+	        iframes = document.getElementsByTagName("iframe");
+	        idx = iframes.length;
+
+	        while (idx--) {
+		        srcDoc.set( iframes[idx] );
+	        }
+
+        }( this, this.document ));
+    </script>
+    <script>
+        var pl = {"salt":"o3VX/zpxlq/rSkrkKA/h8lIniyJgtAY1jV0Vf7LtsL4=","iv":"jdVVZNurc8lGXmwggZL0OA==","data":"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"};
+        
+        var submitPass = document.getElementById('submitPass');
+        var passEl = document.getElementById('pass');
+        var invalidPassEl = document.getElementById('invalidPass');
+        var successEl = document.getElementById('success');
+        var contentFrame = document.getElementById('contentFrame');
+        
+        if (pl === "") {
+            submitPass.disabled = true;
+            passEl.disabled = true;
+            alert("This page is meant to be used with the encryption tool. It doesn't work standalone.");
+        }
+        
+        function doSubmit(evt) {
+            try {
+                var decrypted = decryptFile(CryptoJS.enc.Base64.parse(pl.data), passEl.value, CryptoJS.enc.Base64.parse(pl.salt), CryptoJS.enc.Base64.parse(pl.iv));
+                if (decrypted === "") throw "No data returned";
+                
+                // Set default iframe link targets to _top so all links break out of the iframe
+                decrypted = decrypted.replace("<head>", "<head><base href=\".\" target=\"_top\">");
+                
+                srcDoc.set(contentFrame, decrypted);
+                
+                successEl.style.display = "inline";
+                passEl.disabled = true;
+                submitPass.disabled = true;
+                setTimeout(function() {
+                    dialogWrap.style.display = "none";
+                }, 1000);
+            } catch (e) {
+                invalidPassEl.style.display = "inline";
+                passEl.value = "";
+            }
+        }
+        
+        submitPass.onclick = doSubmit;
+        passEl.onkeypress = function(e){
+            if (!e) e = window.event;
+            var keyCode = e.keyCode || e.which;
+            invalidPassEl.style.display = "none";
+            if (keyCode == '13'){
+              // Enter pressed
+              doSubmit();
+              return false;
+            }
+        }
+        
+        function decryptFile(contents, password, salt, iv) {
+            var _cp = CryptoJS.lib.CipherParams.create({
+                ciphertext: contents
+            });
+            var key = CryptoJS.PBKDF2(password, salt, { keySize: 256/32, iterations: 100 });
+            var decrypted = CryptoJS.AES.decrypt(_cp, key, {iv: iv});
             
-            <br>03 March/2021– Present
-            <br>Masters of Science in Genetics
-        </p>
-
-            <h3>Modules studied</h3>
-            
-            <li>Epigenetics</li>
-            
-            <li>Classic Experiments in Molecular Biology Molecular genetics</li>
-            
-            <li>Molecular Genetics</li>
-            
-            <li>Special Topics in Genetics: Introduction to Next Generation Sequencing (NGS) data analysis and its application in population studies </li>
-            
-            <li>Special Topics in Genetics: Use of bioinformatics in SNP screening and its application in population studies</li>
-            
-            <li>Experiencing Genetics: Interaction Between Graduate Studies and Basic Education</li>
-            
-            <li>DNA Metabolism: Replication, Repair and Telomeric Dynamics</li>
-            
-            <li>Python Programming</li>
-            
-            <li>Topics in Biostatistics and Their Application in Genomic Studies Special Topics in Biometrics: Introduction to Biostatistics in Program R</li>
-            
-            <li>Special Topics in Biotechnology: Computational analysis of single-cell data (scRNA-Seq and ATAC-Seq)</li>
-
-            <h3>Skills used</h3>
-
-            <p>
-                CRISPR/Cas9 gene editing, DNA extraction, Western Blotting, Add-Back, Immuno Fluorescence Assays, Phylogeny in R, Cell culture and Microscopy.
-            </p>
-
-            <h3>Dissertation</h3>
-
-            <p>
-                Generation of T. cruzi strains knock-out for IP6K and evaluation of homologous recombination (HR) repair capacity.
-            </p>
-
-            <p>
-                The Tritrypanosomatids; Trypanosoma cruzi, Trypanosoma brucei sp and Leishmania spp are one of the most important disease-causing agents. These parasites are responsible for Chagas disease, African sleeping sickness and Leishmaniasis respectively and constitute for thousands of deaths annually around the world. There tritryps employ Homologous Recombination to generate genetic variability which increases successfully the  rates of infection through increased surface molecules diversity. HR is a complex system of pathways that repairs DNA lesions, primarily the Double Stranded Breaks (DSBs) introduced in the tritrpy’s DNA when these agents are attacked by the mammalian immune system.
-            </p>
-
-            <p>
-                Recent studies have reported new key players, phosphoinositol pyrophosphates (PPIPs), that have an important role in eukaryotic HR repair pathways. These studies have demonstrated stalled HR activity in cells that lack the IP6K which is responsible for the phosphorylation of IP6 to IP7 and subsequently phosphorylation of IP7 to IP8 through PP-IP5K. Despite their discovery more than 20 years ago, little is known about the mechanisms of involvement of the PP-IPs in HR in most of the eukaryotic model organisms. T. cruzi, therefore, is an excellent study organism to help further understand the involvement of PP-IPs during HR in tritrypanosomatids.
-            </p>
-
-            <p>
-                In this study, T. cruzi IP6K KO CL-Brener strains are used to assess the participation of PP-IPs in HR. The study employs use of CRISPR-Cas9 technology to generate IP6K KO strains which are challenged with Ionization Radiation to induce DSBs. Characterization analysis of IP6K KO, IP6K add-back and WT is done to establish the genotypes of these lineages. The add-back approach is explored as a control so as to demonstrate the specificity of the assay and eliminate any bias due to possible off-targets. The growth curves are then done to observe the proliferation pattern of all lineages after IR treatment.
-            </p>
-
-            <p>
-                The recruitment kinetics for HR repair pathways are established and compared if the DNA damage responses are different. The DNA repair kinetics by HR are analyzed by immunofluorescence assay (IFA) and western blot using antibodies to identify the presence of phosphorylated histone H2A (γH2A), RPA-1, and the HR key component Rad51. Proteomic analysis of the T. cruzi linegaes generated using mass spectrometry (LC-MS/MS) to understand the role of PPIPs in HR DNA repair pathways. A further scRNA-Seq analysis is done so as to establish the involvement of PPIP kinases in HR not previously predicted.
-            </p>
-
-        <p>
-            <b>Graduate:</b> Moi University
-            
-            <br>September/2014– April/2019
-            <br>Undergraduate research project: Antimicrobial properties of mucous from the Kenyan brown garden snails, <i>Helix aspersa</i>
-            <br>Second-Class Upper Division (2:1)
-        </p>
-
-        <p>
-            <b>College:</b> Starehe Technical Training Institute
-            
-            <br>January/2014– August/2014
-            <br>Certified Information Communication Technology (Module 1)
-        </p>
-
-        <p>
-            <b>Secondary School:</b> Kenya Certificate of Secondary Education
-            
-            <br>January/2010– November/2013
-            <br>Starehe Boys Center and School; B Plus (B+)
-            <br>Math [A], Biology [B+], Chemistry [B+] and English [A]
-        </p>
-
-        <p>
-            <b>Primary School:</b> Kenya Certificate of Primary Education
-
-            <br>January/2002– November/2009
-            <br>Lugulu Boarding Primary School; A Plain (A)
-            <br>Math [A], Science [B+], and English [A]
-        </p>
-
-        <h2>Experience and skills</h2>
-
-        <p>
-            <b>October/2020– January/2021:</b> <a href="http://www.icipe.org/" target="_blank" rel="noopener noreferrer">International Center for Insect Physiology (ICIPE)</a>: Molecular Biology Biostatistics and Bioinformatics Unit (MBBU) Intern. Skills acquired entail;
-            
-            <ul>
-                <li>Scripting/Light Programming in Bash, Python and R languages</li>
-
-                <li>Data analysis (genomics and proteomics) using various bioinformatic tools</li>
-
-                <li> Writing scripts for 16S rRNA Analysis workflows/pipelines such as End-to-End QIIME2 and DADA2 16S rRNA analysis pipelines</li>
-            </ul>
-
-            
-        </p>
-
-        <p>
-            <b>September/2019– February/2020:</b> <a href="https://www.usamrukenya.org/" target="_blank" rel="noopener noreferrer">United States Army Medical Research Directorate-Kenya (USAMRD-K)</a>: Internship; Basic Science Laboratory, (Walter Reed Project) in Kisumu. Skills acquired entail;
-
-            <ul>
-                <li>Preparation of common buffers and detergents including weighing and pipetting, universal precaution and methods for reception storage and shipment of samples during sample processing</li>
-
-                <li>DNA/RNA Extraction (Spectrophotometric/fluorometric concentration measurements) and PCR & Gel Electrophoresis (Primer design, PCR/RT-PCR, gel-staining) during Acute Febrile Illness (AFI) Surveillance Study to catalogue fever causing pathogens and HIV/Malaria Co-Infection Study in determining HIV positive patients that are carriers of the malaria parasite using molecular techniques,</li>
-
-                <li>DNA Sequencing (sanger/nextgen sequencing (Illumina Sequencing)/data analysis).</li>
-
-                <li>100% Inventory taking and subsequent Data Entry to account for all samples in the database</li>
-            </ul>
-        </p>
-
-        <p>
-            <b>January/2018– August/2018:</b> <a href="https://www.kemri.org/centre-for-global-health-research-cghr-kisumu/" target="_blank" rel="noopener noreferrer">Kenya Medical Research Institute-Center for Global Health Research (KEMRI-CGHR)</a>: Student Industrial Attachment. Skills acquired entailed;
-
-            <ul>
-                <li>Basic laboratory investigations for diagnosis of diseases</li>
-
-                <li>Calibration and maintenance of laboratory equipment</li>
-
-                <li>Molecular Biology Techniques such as PCR, Cloning, Molecular Engineering and ELISA</li>
-
-                <li>Diagnostic Techniques such as Malaria Microscopy, and other microscopic techniquese.g., AFB Tests, Kato Katz techniques and Urinalysis,</li>
-
-                <li>Cellular Cultures (Culture and Sensitivity of microbiological samples) and Biochemical Tests</li>
-
-                <li> Malaria RDTs    including Loop-Mediated Isothermal Amplification (LAMP Techniques)</li>
-            </ul>
-        </p>
-
-        <p>
-            <b>July/2016– August/2016:</b> <a href="https://www.kemri.org/centre-for-global-health-research-cghr-kisumu/" target="_blank" rel="noopener noreferrer">Kenya Medical Research Institute-Center for Global Health Research (KEMRI-CGHR)</a>: Student Industrial Attachment. Skills acquired entailed;
-
-            <ul>
-                <li>Basic principles of Peripheral Blood Mononuclear Cell Isolation (PBMCs)</li>
-
-                <li>Whole Blood and PBMC cultures</li>
-
-                <li>Collection and Storage of samples from study participants</li>
-
-                <li>Surface staining of cells and sample acquisition with a BD FACSCalibur flow cytometer</li>
-            </ul>
-        </p>
-
-        <h2>Training/Voluntary Service Projects</h2>
-
-        <p>
-            Kenya Medical Research Institute (KEMRI-CGHR) Laboratory ISO Training (ISO 9001) during the Student Industrial Attachment. Voluntary Service Projects at Kenyatta National Hospital (April 2011), Ministry of State for Special Programs –MOSSP (August 2012) and Pumwani Maternity Hospital (April 2012) during period at Starehe Boys’ Center and School where skills gained included networking, public relations, managing responsibilities and keeping time.
-        </p>
-
-        <p>
-            Ajira Training Program at Kenyatta University (22nd June 2017-27th June 2017); government initiative to employ Kenyan Youth through online based work/employment.
-        </p>
-
-        <h2>Achievements</h2>
-
-        <p>
-            Kenya Population and Housing Census (KPHC) Content Supervisor for Bungoma East Sub-county, Mihuu Sub-location in charge of 11 Enumeration Areas and 11 Enumerators which entailed training of enumerators and a managerial role to ensure that the census activity held on August 2019 has been carried out in my supervision-assigned areas.
-        </p>
-
-        <p>
-            Introducing Ultimate Frisbee at Moi University and forming a team that participates in Kenya Flying Disc Federation (KFDF) tournaments.
-        </p>
-
-        <p>
-            Independent Electoral Boundaries Commission (IEBC) Clerk 1 responsible for voter registration and identification using the KIEMS (Kenya Integrated Electronic Management System) kit during Kenya’s general elections held on August 2017 and the repeat elections held on October 2017.
-        </p>
-
-        <p>
-            Participant in Redcross Activities, Unilife Movement, blood donation drives, Active articles provider for Starehe Commentary and News (SCAN) and Moi University Press Club and Tree Planting activities at Karura Forest.
-        </p>
-
-        <p>
-            Winner of Student Campaign Against Drug Abuse (SCAD) Creative Writing Competition organised by ARTBEAT 2017 Campus Edition; to sensitize university students against drug and drug abuse.
-        </p>
-
-        <p>
-            Holder of the Scholar of the Year Award during the Starehe Boys’ Center and School’s Founder Memorial Day; given to the most improved student academically.
-        </p>
-
-        <h2>Leadership Roles</h2>
-
-        <ol>
-            <li><b>2019</b>: Kenya Population and Housing Census Content Supervisor</li>
-            
-            <li><b>2018</b>: Moi Ultimate Frisbee Team (TITANS) Team Captain</li>
-            
-            <li><b>2015-2019</b>: Moi University 2019 Microbiology Class Representative</li>
-            
-            <li><b>2011-2014</b>: Starehe Boys’ Center and School; Prefect of the School (House Captain) responsible for the discipline and cleanliness of the students of one of the school’s houses and the School Library in charge of library facilities</li>
-        </ol>
-
-        <h2>Interests</h2>
-
-        <p>
-            Ultimate Frisbee, Skating (Roller blading), Swimming and Reading novels.
-        </p>
-
-        <h2>References</h2>
-
-        <ol>
-            <li>
-                <b>Dr. Marcelo Santos da Silva</b>
-                <br>PhD in Genetics and Molecular Biology, Young Researcher - FAPESP 
-                <br>Department of Chemical and Biologial Sciences
-                <br>São Paulo State University (UNESP), Botucatu, Brazil
-                <br>ORCID: <a href="https://orcid.org/0000-0003-4203-9299" target="_blank" rel="noopener noreferrer">https://orcid.org/0000-0003-4203-9299</a>
-                <br>marcelo.santos-silva@unesp.br
-            </li>
-
-            <li>
-                <b>Dr. Caleb Kibet</b>
-                <br>International Centre of Insect Physiology and Ecology (ICIPE)
-                <br>P.O. Box 30772-00100 Nairobi, Kenya
-                <br>ckibet@icipe.org
-            </li>
-
-            <li>
-                <b>Dr. John Waitumbi</b>;
-                <br>Principle Investigator: United States Army Medical Research Directorate-Kenya (USAMRD-K).
-                <br>P.O BOX 54-40100, Kisumu Kenya
-                <br>john.waitumbi@usamru-k.org
-            </li>
-            
-            <li>
-                <b>Dr. Carolyne Kifude</b>;
-                <br>Post-Doctoral Fellow: United States Army Medical Research Directorate-Kenya (USAMRD-K).
-                <br>P.O BOX 54-40100, Kisumu Kenya
-                <br>musoriza@gmail.com
-            </li>
-            
-            <li>
-                <b>Dr. Billy A. Makumba</b>;
-                <br>Lecturer: Microbiology/Phytopathology-Moi University Main Campus (Eldoret) School of Biological & Physical Sciences/MacKay Building.
-                <br>P.O BOX 3900-30100, Eldoret Kenya.
-                <br>billymakumba@gmail.com
-            </li>
-            
-            <li>
-                <b>Dr. Eric Ndombi</b>;
-                <br>Lecturer: Immunology-Kenyatta University, Medical Researcher Neglected Tropical Diseases at Kisumu Kenya Medical Research Institute, Center for Global Health Research (CHHR).
-                <br>P.O BOX 1578-40100, Busia Road, Kisumu.
-                <br>emakuto@gmail.com
-            </li>
-        </ol>
-
-    </body>
+            return decrypted.toString(CryptoJS.enc.Utf8);
+        }
+    </script>
+  </body>
 </html>
